@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b16">
+  <title>Bug Hunt Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">B<span>H</span></span><span>BUG HUNT <b>ARENA</b></span></a>
+    <div class="top-right"><span class="live-dot"></span><span>REAL-TIME ARENA</span><span class="version">BETA 01</span></div>
+  </header>
+  <main class="shell">
+    <section id="home" class="view active">
+      <div class="hero">
+        <div class="eyebrow"><span class="eyebrow-line"></span> THE ULTIMATE TECH BATTLE</div>
+        <h1>THINK FAST.<br><span>HUNT BUGS.</span></h1>
+        <p class="hero-copy">A live multiplayer showdown of code, logic and tech knowledge. Gather your crew. Claim the arena.</p>
+        <div class="game-tags"><span>01 / BUG HUNT</span><span>02 / LOGIC BATTLE</span><span>03 / SPEED QUIZ</span></div>
+      </div>
+      <div class="entry-grid">
+        <form id="create-form" class="panel create-panel">
+          <div class="panel-icon">✳</div><div class="panel-kicker">START A NEW MATCH</div>
+          <h2>Create arena</h2><p>Become the host. Invite up to 7 challengers.</p>
+          <label for="create-name">YOUR CALLSIGN</label>
+          <input id="create-name" maxlength="18" placeholder="e.g. ByteKnight" required autocomplete="nickname">
+          <button class="primary-btn" type="submit">CREATE ROOM <span>↗</span></button>
+        </form>
+        <form id="join-form" class="panel join-panel">
+          <div class="panel-icon join-icon">⌁</div><div class="panel-kicker">JOIN THE ACTION</div>
+          <h2>Enter arena</h2><p>Got a room code? Jump into the battle.</p>
+          <label for="join-name">YOUR CALLSIGN</label>
+          <input id="join-name" maxlength="18" placeholder="Your player name" required autocomplete="nickname">
+          <label for="room-code">ROOM CODE</label>
+          <input id="room-code" class="code-input" maxlength="6" placeholder="ABC123" required autocomplete="off">
+          <button class="secondary-btn" type="submit">JOIN ROOM <span>→</span></button>
+        </form>
+      </div>
+      <div class="feature-strip"><div><b>02–08</b><span>PLAYERS</span></div><div><b>06</b><span>ROUNDS</span></div><div><b>20<span>s</span></b><span>PER QUESTION</span></div><div><b>150</b><span>MAX POINTS</span></div></div>
+      <button id="open-profile" class="secondary-btn profile-entry-btn" type="button">MY PROFILE <span>↗</span></button>
+      <button id="open-leaderboard" class="secondary-btn profile-entry-btn" type="button">GLOBAL LEADERBOARD <span>↗</span></button>
+      <p id="home-error" class="error-message"></p>
+    </section>
+
+    <section id="profile" class="view">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">PLAYER ACCOUNT / CAREER OVERVIEW</div>
+          <h1>MY <span>PROFILE.</span></h1>
+        </div>
+        <div class="pill"><span class="live-dot"></span> PLAYER STATS</div>
+      </div>
+      <div id="profile-content" class="profile-content">
+        <div class="panel profile-panel">Loading player profile...</div>
+      </div>
+      <button id="profile-back" class="primary-btn centered-btn" type="button">BACK TO HOME <span>↗</span></button>
+    </section>
+
+    <section id="leaderboard" class="view">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">GLOBAL RANKINGS / TOP PLAYERS</div>
+          <h1>GLOBAL <span>LEADERBOARD.</span></h1>
+        </div>
+        <div class="pill"><span class="live-dot"></span> TOP 20</div>
+      </div>
+      <div id="leaderboard-content">
+        <div class="panel profile-panel">Loading leaderboard...</div>
+      </div>
+      <button id="leaderboard-back" class="primary-btn centered-btn" type="button">BACK TO HOME <span>↗</span></button>
+    </section>
+
+    <section id="lobby" class="view">
+      <div class="section-head"><div><div class="eyebrow">MATCH LOBBY / WAITING FOR PLAYERS</div><h1>ASSEMBLE YOUR <span>CREW.</span></h1></div><div class="pill"><span class="live-dot"></span> LOBBY OPEN</div></div>
+      <div class="room-card panel">
+        <div><div class="panel-kicker">SHARE THIS ROOM CODE</div><div id="room-code-display" class="room-code">------</div><p class="muted">Friends join from their own devices.</p></div>
+        <button id="copy-code" class="copy-btn">COPY CODE ⧉</button>
+      </div>
+      <div class="lobby-layout">
+        <div class="panel players-panel"><div class="panel-heading"><div><div class="panel-kicker">THE CHALLENGERS</div><h2>Players <span id="player-count">0/8</span></h2></div><span class="avatar-stack">◉ ◉ ◉</span></div><div id="player-list" class="player-list"></div></div>
+        <div class="panel rules-panel"><div class="panel-kicker">MATCH BRIEFING</div><h2>Six rounds.<br>One champion.</h2><div class="brief-row"><span>01–02</span><b>BUG HUNT</b><small>Find the flaw</small></div><div class="brief-row"><span>03–04</span><b>LOGIC BATTLE</b><small>Crack the pattern</small></div><div class="brief-row"><span>05–06</span><b>SPEED QUIZ</b><small>Know your tech</small></div><div class="brief-note">20 seconds per question · 100 base points + speed bonus</div></div>
+      </div>
+      <div class="lobby-actions"><button id="start-game" class="primary-btn">START THE MATCH <span>↗</span></button><button id="leave-room" class="text-btn">LEAVE ROOM</button></div>
+      <p id="lobby-error" class="error-message"></p>
+    </section>
+
+    <section id="game" class="view">
+      <div class="game-top"><div><div class="eyebrow">LIVE MATCH / <span id="round-label">ROUND 01</span></div><div id="mode-label" class="mode-label">BUG HUNT</div></div><div class="timer-wrap"><div id="timer" class="timer">20.0</div><span>SECONDS LEFT</span></div></div>
+      <div class="progress-track"><div id="progress" class="progress-fill"></div></div>
+      <div class="question-panel panel">
+        <div class="question-meta"><span id="category" class="category-tag">PYTHON</span><span id="difficulty" class="difficulty">EASY</span><span id="answered-count">0 / 0 ANSWERED</span></div>
+        <h2 id="question-text">Loading challenge…</h2><pre id="question-code" class="code-block"></pre>
+        <div id="options" class="options-grid"></div>
+        <div id="answer-status" class="answer-status">SELECT YOUR ANSWER TO LOCK IT IN</div>
+      </div>
+      <div class="game-footer"><div class="mini-score"><span>YOUR SCORE</span><b id="my-score">0</b></div><div id="game-players" class="game-players"></div></div>
+    </section>
+
+    <section id="reveal" class="view">
+      <div class="reveal-head"><div class="eyebrow">ROUND COMPLETE / ANSWER REVEALED</div><h1 id="reveal-title">NICE WORK.</h1><div class="answer-review">
+        <div class="review-item"><span>YOUR ANSWER</span><strong id="your-answer">—</strong></div>
+        <div class="review-item correct-answer"><span>CORRECT ANSWER</span><strong id="correct-answer">—</strong></div>
+        <div class="review-item"><span>POINTS EARNED</span><strong id="earned-points">0</strong></div>
+      </div>
+      <p id="explanation" class="hero-copy"></p></div>
+      <div class="panel reveal-panel"><div class="panel-kicker">ROUND RESULTS</div><div id="round-results"></div></div>
+      <div class="next-round">NEXT CHALLENGE LOADING <span class="loading-dots">•••</span></div>
+    </section>
+
+    <section id="finished" class="view">
+      <div class="finish-hero"><div class="trophy">✦</div><div class="eyebrow">ARENA CLOSED / FINAL RESULTS</div><h1 id="winner-title">CHAMPION<span>!</span></h1><p id="winner-subtitle">The arena has a new legend.</p></div>
+      <div class="panel final-panel"><div class="panel-kicker">FINAL LEADERBOARD</div><div id="final-results"></div>
+        <div id="personal-stats" class="personal-stats"></div>
+      </div>
+      <button id="play-again" class="primary-btn centered-btn">BACK TO HOME <span>↗</span></button>
+    </section>
+  </main>
+  <footer><span>BUG HUNT ARENA</span><span>CODE. THINK. CONQUER.</span><span>BUILT FOR THE BOLD <b>✳</b></span></footer>
+  <div id="toast" class="toast"></div>
+  <script src="/socket.io/socket.io.js"></script><script src="/app.js"></script>
+</body>
+</html>
