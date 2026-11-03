@@ -1,77 +1,65 @@
 # Bug Hunt Arena
 
-A real-time multiplayer technology party game for 2–8 players. English-only MVP built with Node.js, Express and Socket.IO.
+**Live demo:** https://joyful-begonia-479870.netlify.app
+**GitHub repository:** https://github.com/MarioFolk/bug-hunt-arena
 
-## Features
+Bug Hunt Arena is a browser-based multiplayer technology quiz for 2–8 players. Players create or join a room, answer technical and logic questions, earn points for correct and fast answers, and compete for the highest final score.
 
-- Create a room and share a six-character room code.
-- Join from separate devices on the same network or a deployed server.
-- Host-controlled start; minimum 2, maximum 8 players.
-- Six fixed rounds: 2 Bug Hunt, 2 Logic Battle, 2 Speed Quiz.
-- Adaptive difficulty from Easy to Expert.
-- Four multiple-choice answers per question.
-- 20-second synchronized question timer.
-- 100 points for a correct answer plus up to 50 speed-bonus points.
-- Live answer counts, scores, round reveal and final leaderboard.
-- Shared victory when players tie.
-- Responsive dark neon interface.
+## Highlights
 
-## Requirements
+- Multiplayer rooms with a shareable room code
+- Host-controlled match start; 2–8 players
+- Six-round match format: Bug Hunt, Logic Battle and Speed Quiz
+- Four answer choices per question
+- 20-second question timer
+- Correct-answer points plus a speed bonus
+- Round results, explanations, player profiles and match history
+- Global leaderboard
+- Responsive dark/neon interface
+- 100-question bank across programming, Linux, SQL, Git, APIs, debugging, QA and algorithms
 
-- Node.js 18+ (Node.js 22 is recommended).
-- npm.
-- Internet connection for the Google Fonts stylesheet (the game still works without it).
+## Live demo
 
-## Run locally on Linux
+Open the deployed game: **https://joyful-begonia-479870.netlify.app**
 
-```bash
-unzip bug-hunt-arena.zip
-cd bug-hunt-arena
-npm install
-npm start
-```
+To try multiplayer, open the link in two separate browser sessions. Create a room in the first session, join it from the second session using the room code, and start the match as the host.
 
-Open http://localhost:3000.
+## Netlify deployment architecture
 
-## Test with two players
+The deployed Netlify edition uses:
 
-1. Open the URL in two separate browser windows (or one normal and one private window).
-2. In the first window, create a room.
-3. Copy the room code.
-4. In the second window, enter a different player name and join with that code.
-5. Start the match from the host window.
+- Frontend: HTML, CSS and JavaScript
+- Backend: Netlify Function at `/.netlify/functions/game`
+- Shared state: Netlify Blobs store `bug-hunt-arena-state`
+- Transport: HTTP requests and browser polling (rather than a continuously running Socket.IO server)
+- Concurrency: strong-consistency reads and ETag conditional writes for the shared state record
 
-## Test on phones on the same Wi-Fi
+The Netlify edition preserves the game's core interface and gameplay while replacing the original persistent Node.js/Socket.IO backend with a serverless implementation suitable for Netlify Functions.
 
-Find your computer's LAN IP address:
+## Testing
 
-```bash
-hostname -I
-```
+The deployed version was manually tested in two separate browser sessions:
 
-On each phone, open `http://YOUR_LAN_IP:3000`. Allow port 3000 through the computer firewall if needed. Both devices must be on the same network.
+- Room creation — passed
+- Joining as a second player — passed
+- Host starting the match — passed
+- Playing through the match — passed
+- Profile showing the completed match and statistics — passed
+- Match/profile data remaining after a page refresh — passed
 
-## Deploy for remote players
+The Netlify package also includes an automated game-engine test suite covering a two-player match through six rounds, scoring and winner calculation, host-only start, answer locking, and profile/leaderboard aggregation. Automated tests are not a substitute for monitoring the live deployment.
 
-Deploy this Node.js app to a host that supports persistent Node processes and WebSockets (for example, Render, Railway or Fly.io). Set the start command to `npm start`. Do not use a static-only hosting target such as GitHub Pages for the multiplayer server.
+**Not separately confirmed in the live manual test:** the visible Global Leaderboard display for both players. The profile persistence check was confirmed.
 
-## Important MVP notes
+## Repository and deployment note
 
-- Rooms live in server memory; restarting the server clears active rooms.
-- The question set is a small starter library of six curated questions. Expanding it is the next content task.
-- A disconnected player remains represented during an active match, but this first MVP does not yet implement secure session-based reconnection.
-- This is a playable prototype, not a production-hardened service. Before public launch, add rate limiting, input validation, room expiry, persistent sessions and automated tests.
-- The six-question adaptive sequence is fixed for this MVP. Later versions can select questions from a larger tagged question bank.
+The GitHub repository contains the Netlify serverless edition deployed at the live demo URL. The original Express, Socket.IO and SQLite implementation is retained in the Git history before the serverless migration. The current source uses Netlify Functions and Netlify Blobs.
 
-## Project structure
+## Project status
 
-```text
-bug-hunt-arena/
-├── server.js
-├── package.json
-├── README.md
-└── public/
-    ├── index.html
-    ├── style.css
-    └── app.js
-```
+A working portfolio prototype with a live public deployment and a manually verified two-player game flow. It is not presented as a production-hardened commercial service. Player/profile identifiers are not account authentication, and the shared Blobs record is designed for a small prototype rather than high-throughput transactional workloads.
+
+## Author
+
+**Mario Folk**
+GitHub: https://github.com/MarioFolk

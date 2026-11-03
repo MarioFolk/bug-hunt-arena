@@ -1,11 +1,9 @@
 node_modules/
-data/
+.netlify/
+dist/
+.cache/
 .env
 .env.*
-*.db
-*.db-shm
-*.db-wal
-*.backup
-*.backup-*
-*.pre-*.backup
+*.log
+npm-debug.log*
 .DS_Store
